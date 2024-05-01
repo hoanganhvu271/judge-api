@@ -5,19 +5,13 @@ var accessToken = '9b348449f67afb2fa93a5e53e417b609';
 var endpoint = 'ec2e5307.problems.sphere-engine.com';
 
 // define request parameters
-var problemId = 139225;
-var testcaseData = {
-    input: '1',
-    output: '1',
-    timelimit: 5,
-    judgeId: 3190
-};
+var problemId = 139229;
+var testcaseNumber = 3;
 
 // send request
 request({
-    url: 'https://' + endpoint + '/api/v4/problems/' + problemId + '/testcases?access_token=' + accessToken,
-    method: 'POST',
-    form: testcaseData
+    url: 'https://' + endpoint + '/api/v4/problems/' + problemId + '/testcases/' + testcaseNumber + '?access_token=' + accessToken,
+    method: 'GET'
 }, function (error, response, body) {
 
     if (error) {
@@ -26,7 +20,7 @@ request({
 
     // process response
     if (response) {
-        if (response.statusCode === 201) {
+        if (response.statusCode === 200) {
             console.log(JSON.parse(response.body)); // testcase data in JSON
         }
         else {
@@ -35,10 +29,8 @@ request({
             } else if (response.statusCode === 403) {
                 console.log('Access denied');
             } else if (response.statusCode === 404) {
-                console.log('Problem does not exist');
-            } else if (response.statusCode === 400) {
                 var body = JSON.parse(response.body);
-                console.log('Error code: ' + body.error_code + ', details available in the message: ' + body.message)
+                console.log('Non existing resource, error code: ' + body.error_code + ', details available in the message: ' + body.message)
             }
         }
     }

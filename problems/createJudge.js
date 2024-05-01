@@ -5,16 +5,17 @@ var accessToken = '9b348449f67afb2fa93a5e53e417b609';
 var endpoint = 'ec2e5307.problems.sphere-engine.com';
 
 // define request parameters
-var problemData = {
-    name: 'Problem 1',
-    masterjudgeId: 1001
+var judgeData = {
+    compilerId: 99,
+    compilerVersionId: 3,
+    source: 'print(input())'
 };
 
 // send request
 request({
-    url: 'https://' + endpoint + '/api/v4/problems?access_token=' + accessToken,
+    url: 'https://' + endpoint + '/api/v4/judges?access_token=' + accessToken,
     method: 'POST',
-    form: problemData
+    form: judgeData
 }, function (error, response, body) {
 
     if (error) {
@@ -24,7 +25,7 @@ request({
     // process response
     if (response) {
         if (response.statusCode === 201) {
-            console.log(JSON.parse(response.body)); // problem data in JSON
+            console.log(JSON.parse(response.body)); // judge data in JSON
         } else {
             if (response.statusCode === 401) {
                 console.log('Invalid access token');

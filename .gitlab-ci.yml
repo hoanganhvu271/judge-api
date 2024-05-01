@@ -1,0 +1,32 @@
+image: docker:19.03.12
+
+services:
+  - docker:19.03.12-dind
+
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2
+
+before_script:
+  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+
+build:
+  stage: build
+  script:
+    - docker build -t $DOCKER_USERNAME/judge-webapp .
+    - docker push $DOCKER_USERNAME/judge-webapp
+
+test:
+  stage: test
+  script:
+    - echo "hehe1"
+
+deploy:
+  stage: deploy
+  script:
+    - echo "hehe2"

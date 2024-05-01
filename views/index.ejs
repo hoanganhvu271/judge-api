@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Details</title>
+</head>
+
+<body>
+    <%- name %>
+        <%- body %> <!-- Chèn nội dung HTML từ yêu cầu POST vào đây -->
+
+            <h1>Code Checker</h1>
+            <form id="codeForm">
+                <label for="source">Source Code:</label><br>
+                <textarea id="source" name="source" rows="20" cols="90"></textarea><br>
+                <button type="submit">Submit</button>
+            </form>
+
+            <h2>Result</h2>
+            <pre id="result"></pre>
+
+            <script>
+                const form = document.getElementById('codeForm');
+                const resultDisplay = document.getElementById('result');
+
+                form.addEventListener('submit', async function (event) {
+                    event.preventDefault();
+
+                    const sourceCode = document.getElementById('source').value;
+
+                    try {
+                        const response = await fetch('/submit', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ source: sourceCode })
+                        });
+
+                        const data = await response.json();
+                        resultDisplay.textContent = data.result;
+                    } catch (error) {
+                        console.error('Error:', error);
+                        resultDisplay.textContent = 'Internal Server Error';
+                    }
+                });
+            </script>
+</body>
+
+</html>
