@@ -18,8 +18,8 @@ before_script:
 build:
   stage: build
   script:
-    - docker build -t $DOCKER_USERNAME/judge-webapp .
-    - docker push $DOCKER_USERNAME/judge-webapp
+    - docker build -t $DOCKER_USERNAME/judge-api .
+    - docker push $DOCKER_USERNAME/judge-api
 
 test:
   stage: test
